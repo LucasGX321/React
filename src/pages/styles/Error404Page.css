@@ -1,0 +1,24 @@
+.main-body {
+	height: 98vh;
+	display: flex;
+	flex-direction: column;
+	background-image: -webkit-gradient(
+		linear,
+		left top,
+		left bottom,
+		from(#21c08b),
+		to(#8f57fd)
+	);
+	background-image: linear-gradient(#21c08b, #8f57fd);
+	color: white;
+}
+
+.main-body img {
+	height: 70vh;
+}
+
+.main-body span {
+	font-size: 5vh;
+	font-style: italic;
+	margin: 0;
+}
