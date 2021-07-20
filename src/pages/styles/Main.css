@@ -12,7 +12,6 @@
 .Main__container {
 	flex-direction: column;
 	max-width: 280px;
-	/* margin: 10px; */
 }
 .Main__container p {
 	font-size: 1.2rem;
@@ -20,10 +19,10 @@
 
 .Main_conf-logo {
 	max-width: 480px;
-	height: 25vh;
+	height: 15vh;
 	padding: 15px;
 }
 .Main_conf-img {
 	max-width: 480px;
-	height: 50vh;
+	height: 35vh;
 }

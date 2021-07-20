@@ -5,7 +5,7 @@ import Layout from "./Layout";
 import BadgeNew from "../pages/BadgeNew";
 import Main from "../pages/Main";
 import Badges from "../pages/Badges";
-import Error404Page from "../pages/Error404Page";
+import PageError from "../pages/PageError";
 
 function App() {
 	return (
@@ -19,7 +19,7 @@ function App() {
 						path="/badges/new"
 						component={BadgeNew}
 					></Route>
-					<Route path="/pepe" component={Error404Page}></Route>
+					<Route path="/pepe" component={PageError}></Route>
 				</Switch>
 			</Layout>
 		</BrowserRouter>

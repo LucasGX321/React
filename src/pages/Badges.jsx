@@ -1,43 +1,17 @@
 import React from "react";
 import "./styles/Badges.css";
 
-import BadgesList from "../components/BadgesList.jsx";
 import confLogo from "../images/platziconf-logo.svg";
+import BadgesList from "../components/BadgesList.jsx";
+import PageLoading from "./PageLoading.jsx";
+import PageError from "./PageError.jsx";
 import { Link } from "react-router-dom";
 class Badges extends React.Component {
 	state = {
-		data: [
-			{
-				id: "2de30c42-9deb-40fc-a41f-05e62b5939a7",
-				firstName: "Freda",
-				lastName: "Grady",
-				email: "Leann_Berge@gmail.com",
-				jobTitle: "Legacy Brand Director",
-				twitter: "FredaGrady22221-7573",
-				avatarUrl:
-					"https://www.gravatar.com/avatar/f63a9c45aca0e7e7de0782a6b1dff40b?d=identicon",
-			},
-			{
-				id: "d00d3614-101a-44ca-b6c2-0be075aeed3d",
-				firstName: "Major",
-				lastName: "Rodriguez",
-				email: "Ilene66@hotmail.com",
-				jobTitle: "Human Research Architect",
-				twitter: "ajorRodriguez61545",
-				avatarUrl:
-					"https://www.gravatar.com/avatar/d57a8be8cb9219609905da25d5f3e50a?d=identicon",
-			},
-			{
-				id: "63c03386-33a2-4512-9ac1-354ad7bec5e9",
-				firstName: "Daphney",
-				lastName: "Torphy",
-				email: "Ron61@hotmail.com",
-				jobTitle: "National Markets Officer",
-				twitter: "DaphneyTorphy96105",
-				avatarUrl:
-					"https://www.gravatar.com/avatar/e74e87d40e55b9ff9791c78892e55cb7?d=identicon",
-			},
-		],
+		nextPage: 1,
+		loading: true,
+		error: false,
+		data: [],
 	};
 	handleChange = (e) => {
 		this.setState({
@@ -46,7 +20,56 @@ class Badges extends React.Component {
 			},
 		});
 	};
+
+	componentDidMount() {
+		this.fetchUsers();
+		console.log(this.state.data);
+	}
+
+	fetchUsers = async () => {
+		this.setState({ loading: true, error: null });
+		try {
+			const response = await fetch(
+				`https://rickandmortyapi.com/api/character/?page=${this.state.nextPage}`
+			);
+			const data = await response.json();
+			for (const character of data.results) {
+				this.state.data.push({
+					id: character.id,
+					firstName: character.name,
+					lastName: null,
+					email: `${character.name}@gmail.com`,
+					jobTitle: character.origin.name,
+					twitter: `${character.name}`,
+					avatarUrl: character.image,
+				});
+				console.log(this.state.data);
+			}
+			this.setState({
+				loading: false,
+				nextPage: this.state.nextPage + 1,
+			});
+		} catch (e) {
+			this.setState({
+				loading: false,
+				error: e,
+			});
+		}
+	};
+
+	btnClicked = (e) => {
+		e.preventDefault();
+		this.fetchUsers();
+	};
+
 	render() {
+		if (this.state.loading === true) {
+			return <PageLoading />;
+		}
+		if (this.state.error) {
+			return <PageError error={this.state.error.message} />;
+		}
+
 		return (
 			<div className="Badges">
 				<div className="Badges__hero">
@@ -65,7 +88,6 @@ class Badges extends React.Component {
 									placeholder="search"
 									id="name"
 									name="toSearch"
-									// value={this.props.formValues.firstName}
 								/>
 								<button className="btn btn-secondary">
 									<img src="/" alt="lupa" />
@@ -81,6 +103,12 @@ class Badges extends React.Component {
 						</Link>
 					</div>
 					<BadgesList badges={this.state.data} />
+					<button
+						className="btn btn-primary"
+						onClick={this.btnClicked}
+					>
+						New Page
+					</button>
 				</div>
 			</div>
 		);
