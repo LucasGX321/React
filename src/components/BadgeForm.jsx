@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 class BadgeForm extends React.Component {
 	handleChange = (e) => {
@@ -9,17 +10,12 @@ class BadgeForm extends React.Component {
 	handleClick = (e) => {
 		console.log(`The button: ${e.target.name}, was clicked`);
 	};
-	handleSumbit = (e) => {
-		e.preventDefault();
-		console.log("Form was submitted");
-		console.log(this.props.formValues);
-	};
 
 	render() {
 		return (
 			<section className="BadgeForm">
 				<h1 className="justCenter">New attendant</h1>
-				<form onSubmit={this.handleSumbit}>
+				<form onSubmit={this.props.onSubmit}>
 					<div className="form-group">
 						<label htmlFor="name">First Name</label>
 						<input
@@ -91,13 +87,14 @@ class BadgeForm extends React.Component {
 						<a href="/"> privacy policy </a>
 					</span>
 					<br />
-					<button
+					<Link
+						to="/badges/"
 						name="save"
 						onClick={this.handleClick}
 						className="btn btn-primary justCenter"
 					>
 						Save
-					</button>
+					</Link>
 				</form>
 			</section>
 		);

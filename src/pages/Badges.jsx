@@ -1,11 +1,12 @@
 import React from "react";
 import "./styles/Badges.css";
-
 import confLogo from "../images/platziconf-logo.svg";
 import BadgesList from "../components/BadgesList.jsx";
 import PageLoading from "./PageLoading.jsx";
 import PageError from "./PageError.jsx";
+import BadgesAdd from "../components/BadgesAdd.js";
 import { Link } from "react-router-dom";
+
 class Badges extends React.Component {
 	state = {
 		nextPage: 1,
@@ -22,8 +23,13 @@ class Badges extends React.Component {
 	};
 
 	componentDidMount() {
+		const newAdd = BadgesAdd(null);
+		// console.log("valor en upd", newAdd);
+		if (newAdd.firstName === "") {
+		} else {
+			this.state.data.unshift(newAdd);
+		}
 		this.fetchUsers();
-		console.log(this.state.data);
 	}
 
 	fetchUsers = async () => {
@@ -43,7 +49,6 @@ class Badges extends React.Component {
 					twitter: `${character.name}`,
 					avatarUrl: character.image,
 				});
-				console.log(this.state.data);
 			}
 			this.setState({
 				loading: false,
@@ -69,7 +74,6 @@ class Badges extends React.Component {
 		if (this.state.error) {
 			return <PageError error={this.state.error.message} />;
 		}
-
 		return (
 			<div className="Badges">
 				<div className="Badges__hero">

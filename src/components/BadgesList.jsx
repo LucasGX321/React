@@ -1,7 +1,27 @@
 import React from "react";
+import Gravatar from "./Gravatar.jsx";
 import "./styles/BadgesList.css";
 
 class BadgesList extends React.Component {
+	whichImg = (props) => {
+		if (props.avatarUrl === "") {
+			return (
+				<Gravatar
+					className="BadgesListItem__avatar"
+					email={props.email}
+				/>
+			);
+		} else {
+			return (
+				<img
+					className="BadgesListItem__avatar"
+					src={props.avatarUrl}
+					alt="avatar"
+				/>
+			);
+		}
+	};
+
 	render() {
 		return (
 			<div className="BadgesList">
@@ -10,11 +30,7 @@ class BadgesList extends React.Component {
 						{this.props.badges.map((Badge) => {
 							return (
 								<li className="BadgesListItem" key={Badge.id}>
-									<img
-										className="BadgesListItem__avatar"
-										src={Badge.avatarUrl}
-										alt="avatar"
-									/>
+									{this.whichImg(Badge)}
 									<div className="col">
 										<div>
 											<strong>
